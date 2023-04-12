@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import "./App.css";
+import Login from "./Login/Login";
+import { LOCAL_STORAGE_NAMES } from './constants';
+import Dashboard from "./Dashboard/Dashboard";
 
 function App() {
+  const [isLogined, setLoginedStatus] = useState(null);
+
+  useEffect(() => {
+    try {
+      const isLoginedStatus = localStorage.getItem(LOCAL_STORAGE_NAMES.isLogined);
+      setLoginedStatus(JSON.parse(isLoginedStatus));
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  const handleLoginStatus = () => {
+    setLoginedStatus(true);
+    try {
+      localStorage.setItem(LOCAL_STORAGE_NAMES.isLogined, true);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {isLogined ? (
+        <Dashboard userName ='Ivan'>
+          <div>HTML From APP</div>
+        </Dashboard>
+      ) : (
+        <Login onLoginSuccssesfull={handleLoginStatus} />
+      )}
     </div>
   );
 }

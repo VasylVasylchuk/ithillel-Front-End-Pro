@@ -1,0 +1,26 @@
+.Login--wrap { 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Login--wrap__form {
+  width: 600px;
+  background-color: grey;
+}
+
+.Login--wrap__form__input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Login--error {
+  color: red;
+}
+
+label {
+  margin-right: 10px;
+}
