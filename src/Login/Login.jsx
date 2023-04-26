@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { credentions } from "./../mock-data/helper";
 import "./Login.css";
+import HttpRequest from '../common/HttpRequest'
 
 function Login({onLoginSuccssesfull}) {
   const [error, setError] = useState(false);
@@ -18,18 +18,11 @@ function Login({onLoginSuccssesfull}) {
       if(lock) return;
 
       setLock(true);
-
-      setTimeout(() => {
-        if (
-          credentions.login === values.userName &&
-          credentions.password === values.password
-        ) {
-          onLoginSuccssesfull();
-        } else {
-          setError(true);
-        }
-        setLock(false);
-      }, 1000);
+  
+      HttpRequest.post(values)
+      .then(onLoginSuccssesfull)
+      .then(() => setError(true))
+      .finally(() => setLock(false));
     },
   });
 

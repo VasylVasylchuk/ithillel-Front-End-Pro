@@ -25,11 +25,17 @@ function App() {
     }
   }
 
+  const logOut = () => {
+    localStorage.setItem(LOCAL_STORAGE_NAMES.isLogined, false);
+    setLoginedStatus(false);
+  } 
+
   return (
     <div className="App">
       {isLogined ? (
         <Dashboard userName ='Ivan'>
           <div>HTML From APP</div>
+          <button onClick={logOut}>LOG OUT</button>
         </Dashboard>
       ) : (
         <Login onLoginSuccssesfull={handleLoginStatus} />
