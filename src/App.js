@@ -1,33 +1,17 @@
-import { useState, useEffect } from "react";
+import { useDispatch } from 'react-redux';
 import "./App.css";
 import Login from "./Login/Login";
-import { LOCAL_STORAGE_NAMES } from './constants';
 import Dashboard from "./Dashboard/Dashboard";
+import { useSelector } from "react-redux";
+import { getToken } from './store/app/appSelectors';
+import { appActions, resetStore } from './store/app/appSlice';
 
 function App() {
-  const [isLogined, setLoginedStatus] = useState(null);
-
-  useEffect(() => {
-    try {
-      const isLoginedStatus = localStorage.getItem(LOCAL_STORAGE_NAMES.isLogined);
-      setLoginedStatus(JSON.parse(isLoginedStatus));
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
-  const handleLoginStatus = () => {
-    setLoginedStatus(true);
-    try {
-      localStorage.setItem(LOCAL_STORAGE_NAMES.isLogined, true);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const isLogined = useSelector(getToken);
+	const dispatch = useDispatch();
 
   const logOut = () => {
-    localStorage.setItem(LOCAL_STORAGE_NAMES.isLogined, false);
-    setLoginedStatus(false);
+    dispatch(resetStore);
   } 
 
   return (
@@ -38,7 +22,7 @@ function App() {
           <button onClick={logOut}>LOG OUT</button>
         </Dashboard>
       ) : (
-        <Login onLoginSuccssesfull={handleLoginStatus} />
+        <Login />
       )}
     </div>
   );

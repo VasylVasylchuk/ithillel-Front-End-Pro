@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import "./Login.css";
 import HttpRequest from '../common/HttpRequest'
+import { appActions } from "../store/app/appSlice";
+import { useDispatch } from 'react-redux';
 
-function Login({onLoginSuccssesfull}) {
+function Login() {
   const [error, setError] = useState(false);
   const [lock, setLock] = useState(false);
+
+	const dispatch = useDispatch();
 
   const loginFormik = useFormik({
     initialValues: {
@@ -17,12 +21,13 @@ function Login({onLoginSuccssesfull}) {
 
       if(lock) return;
 
-      setLock(true);
-  
-      HttpRequest.post(values)
-      .then(onLoginSuccssesfull)
-      .then(() => setError(true))
-      .finally(() => setLock(false));
+      // setLock(true);
+      dispatch(appActions.setToken('loginToken'));
+
+      // HttpRequest.post(values)
+      // .then(dispatch(appActions.setToken(data)))
+      // .then(() => setError(true))
+      // .finally(() => setLock(false));
     },
   });
 
